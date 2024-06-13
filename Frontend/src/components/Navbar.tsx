@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 export default function Navbar() {
-    const [hammenu, setHammenu] = useState(false)
+    const [hammenu, setHammenu] = useState<boolean>(false)
     return (
         <nav className="fixed bg-white bg-opacity-90 flex justify-between w-full px-4 py-2">
             <span className="">Quizapp</span>
