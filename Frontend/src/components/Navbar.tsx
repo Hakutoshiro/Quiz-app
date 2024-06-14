@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Navbar, NavbarBrand, NavbarContent, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Button } from "@nextui-org/react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Button, NavbarItem } from "@nextui-org/react";
 import { Navigate } from "react-router-dom";
 import { useUserContext } from "../sharedContext/UserContext";
 
@@ -29,9 +29,16 @@ export default function NavbarComponent() {
                     aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                     className="sm:hidden"
                 />
-
             </NavbarContent>
-
+            <NavbarContent justify="end" className=" hidden lg:flex">
+                <NavbarItem >
+                    <Button 
+                        color="danger"
+                        onClick={handleLogout}>
+                        Signout
+                    </Button>
+                </NavbarItem>
+            </NavbarContent>
             
             <NavbarMenu>
             <NavbarMenuItem >
