@@ -14,9 +14,7 @@ export default function SignupPage() {
             return
         }
         try {
-            console.log(name,email,password)
             const {data} = await axios.post("/user/signup",{name,email,password})
-            console.log(data)
             localStorage.setItem("token",JSON.stringify(data.token))
         } catch (error) {
             window.alert("Signup failed")

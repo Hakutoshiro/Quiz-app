@@ -8,7 +8,6 @@ const jwtSecret = process.env.JWT_SECRET_KEY
 
 export const handleSignupUser = async (req:any , res: any) =>{
     const {name, email, password} = req.body;
-    console.log(name,email,password);
     try {
         const userDoc = await UserModel.create({
             name : name,
@@ -18,7 +17,6 @@ export const handleSignupUser = async (req:any , res: any) =>{
                 if(err) throw err;
                 res.json({token,userDoc});                      
             })
-            console.log(userDoc);
     } catch (error) {
         res.status(422).json(error);
     }

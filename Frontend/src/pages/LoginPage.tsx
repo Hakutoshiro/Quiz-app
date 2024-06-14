@@ -17,7 +17,6 @@ export default function LoginPage() {
         }
         try {
             const {data} = await axios.post("/user/login",{email,password})
-            console.log(data)
             localStorage.setItem("token",JSON.stringify(data.token))
             user?.setUser(data.userDoc)
             window.alert("Login successful")
