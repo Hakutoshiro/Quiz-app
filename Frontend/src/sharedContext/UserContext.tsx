@@ -3,7 +3,7 @@ import { createContext, useEffect, useState ,ReactNode, useContext} from "react"
 
 interface UserContextInterface {
     user: User | null,
-    setUser: (user: User) => void,
+    setUser: (user: User | null) => void,
     ready: boolean
 }
 

@@ -26,12 +26,12 @@ export default function LoginPage() {
         }
     }
 
-    if(navigate){
+    if(navigate || user?.user ){
         return <Navigate to={"/user"} />
     }
 
     return (
-        <form className="w-11/12 max-w-[400px] mx-auto text-center my-28 md:border md:border-black md:rounded-md flex flex-col"
+        <form className="w-11/12 max-w-[400px] mx-auto text-center  md:border md:border-black md:rounded-md flex flex-col"
             onSubmit={(e) => handleSubmit(e)}>
             <h1 className="font-bold text-3xl pb-3 pt-6">Login Page</h1>
             <input 

@@ -1,30 +1,49 @@
 import { useState } from "react"
+import { Navbar, NavbarBrand, NavbarContent, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Button } from "@nextui-org/react";
+import { Navigate } from "react-router-dom";
+import { useUserContext } from "../sharedContext/UserContext";
 
-export default function Navbar() {
-    const [hammenu, setHammenu] = useState<boolean>(false)
+
+export default function NavbarComponent() {
+    const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+    const [logOut, setLogOut] = useState<boolean>(false);
+    const UserContext = useUserContext()
+    const handleLogout = (e : React.MouseEvent<Element, MouseEvent>) => {
+        e.preventDefault();
+        UserContext?.setUser(null)
+        localStorage.removeItem("token")
+        setLogOut(true)
+    }
+
+    if(logOut){
+        return <Navigate to={"/"}/>
+    }
+
     return (
-        <nav className="fixed bg-white bg-opacity-90 flex justify-between w-full px-4 py-2">
-            <span className="">Quizapp</span>
-            <div className="visible md:invisible">
-                <button className="" onClick={() => { setHammenu(!hammenu) }}>
-                    {!hammenu &&
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                        </svg>
-                    }
-                    {hammenu &&
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
-                        </svg>
+        <Navbar onMenuOpenChange={setIsMenuOpen}>
+            <NavbarContent>
+                <NavbarBrand>
+                    <p className="font-bold text-inherit text-primary-300">QuizApp</p>
+                </NavbarBrand>
+                <NavbarMenuToggle
+                    aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                    className="sm:hidden"
+                />
 
-                    }
-                </button>
-                {hammenu &&
-                    <div className="w-[280px] min-h-screen bg-red-300">
-                         
-                    </div>
-                }
-            </div>
-        </nav>
-    )
+            </NavbarContent>
+
+            
+            <NavbarMenu>
+            <NavbarMenuItem >
+                        <Button
+                            color={"danger"}
+                            className="w-full"
+                            onClick={handleLogout}
+                            size="lg">
+                            Logout
+                        </Button>
+                    </NavbarMenuItem>
+            </NavbarMenu>
+        </Navbar>
+    );
 }
