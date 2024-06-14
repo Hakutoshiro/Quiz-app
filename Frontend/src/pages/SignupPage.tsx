@@ -1,12 +1,13 @@
 import axios from "axios"
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import { Button, Input } from "@nextui-org/react"
 
 export default function SignupPage() {
     const [name,setName] = useState("")
     const [email,setEmail] = useState("")
     const [password,setPassword] = useState("")
-    const handleSubmit = async (e:any) =>{
+    const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault()
         if(!name ||!email ||!password){
             window.alert("Please fill all the fields")
@@ -17,36 +18,50 @@ export default function SignupPage() {
             const {data} = await axios.post("/user/signup",{name,email,password})
             console.log(data)
             localStorage.setItem("token",JSON.stringify(data.token))
-            window.alert("Signup successful")
         } catch (error) {
             window.alert("Signup failed")
         }
     }
 
-    
+    const handleNameChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+        setName(e.target.value)
+    }
+
+    const handleEmailChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+        setEmail(e.target.value)
+    }
+
+    const handlePasswordChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(e.target.value)
+    }
 
     return (
-        <form className="w-11/12 max-w-[400px] mx-auto text-center  md:border md:border-black md:rounded-md flex flex-col" 
-            onSubmit={(e) => handleSubmit(e)}>
-            <h1 className="font-bold text-3xl pb-3 pt-6">Sign Up Page</h1>
-            <input 
-                type="text" 
+        <form className="w-11/12 max-w-[400px] py-28 mx-auto text-center  flex flex-col" 
+            onSubmit={handleSubmit}>
+            <h1 className="font-bold text-3xl pb-3 pt-6">Sign Up</h1>
+            
+            <Input 
                 placeholder="Name" 
-                className="w-11/12 px-3 py-3 mx-auto my-4 border border-gray-200 rounded-md" 
-                value={name} onChange={(e) => { setName(e.target.value) }} />
-            <input 
+                type="text" 
+                className="w-11/12  mx-auto my-4 "
+                value={name} onChange={handleNameChange}/>
+
+            <Input 
                 type="text" 
                 placeholder="Email" 
-                className="w-11/12 px-3 py-3 mx-auto my-4 border border-gray-200 rounded-md" 
-                value={email} onChange={(e) => { setEmail(e.target.value) }} />
-            <input 
+                className="w-11/12  mx-auto my-4 " 
+                value={email} onChange={handleEmailChange} />
+            <Input 
                 type="password" 
                 placeholder="Password" 
-                className="w-11/12 px-3 py-3 mx-auto my-4 border border-gray-200 rounded-md" 
-                value={password} onChange={(e) => { setPassword(e.target.value) }} />
-            <input 
+                className="w-11/12  mx-auto my-4 " 
+                value={password} onChange={handlePasswordChange} />
+            <Button 
                 type="submit" 
-                className="w-11/12 px-3 py-3 mx-auto my-4 border border-gray-200 rounded-md" value={"Sign Up"} />
+                color="primary"
+                className="w-11/12  mx-auto my-4 "  >
+                Sign Up
+            </Button>
             <Link to="/" className="underline pb-3">Login</Link>
         </form>
     )

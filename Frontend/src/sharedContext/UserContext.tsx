@@ -29,7 +29,6 @@ export function UserContextProvider({children}: { children: ReactNode }){
         const token = localStorage.getItem('token')
             if(token !== null){
                 const {data} =await   axios.get('/user/profile',{headers:{authorization: `Bearer ${token}`}})
-                console.log(data)
                 setUser(data);
                 setReady(true);
             }
