@@ -4,6 +4,7 @@ const { mongoConnection } = require( './connection.ts');
 require('dotenv').config();
 const cookieParser = require('cookie-parser');
 import {UserRouter} from './routes/userRoutes';
+import { CTPaperRouter } from './routes/createTestPapers';
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(cors({
 mongoConnection(process.env.MONGO_URL);
 
 app.use('/user',UserRouter)
+app.use('/createpaper',  CTPaperRouter)
 
 app.listen(process.env.PORT || 3000, () => {
   console.log('Server is running on port 3000');
