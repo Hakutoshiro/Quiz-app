@@ -1,19 +1,27 @@
 import { TestPaper } from '../models/TestPaper';
 
+
+
 const CreateTestPapers =  async (req : any , res : any ) => {
-    const {name , questions , answers , options} = req.body;
+    const { name, testQuestions } = req.body;
     try {
-        const testPaper = new TestPaper({
+        TestPaper.create({
             name,
-            questions,
-            answers,
-            options
-        });
-        await testPaper.save();
-        res.json('Test Paper Created');
-    } catch (error) {
-        res.status(500).send(error.message);
+            testQuestions
+        })
+        res.status(201).json({message: "Test Paper Created Successfully"})
+    } catch (error:any) {
+        res.status(400).json({message: error.message})
     }
 }
 
-export { CreateTestPapers }
+const getAllQuizzes = async (req : any , res : any ) => {
+    try {
+        const quizzes = await TestPaper.find();
+        res.status(200).json(quizzes)
+    } catch (error:any) {
+        res.status(400).json({message: error.message})
+    }
+}
+
+export { CreateTestPapers ,getAllQuizzes}
