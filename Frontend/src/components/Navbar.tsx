@@ -36,13 +36,13 @@ export default function NavbarComponent() {
                     </Link>
                 </NavbarItem>
                 <NavbarItem>
-                    <Link href={"/result"} className={UserContext?.ready && UserContext?.user?.role === "admin" ? "hidden" : ""}>
+                    <Link href={"/result"} className={UserContext?.ready && UserContext?.user?.role === "user" ? "" : "hidden"}>
                         <Button color="primary" variant={page === "result" ? "light" : "flat"} className={page === "result" ? "bg-gradient-to-r from-primary-200 to-primary-500 text-white" : ""}>
                             Result
                         </Button>
                     </Link>
 
-                    <Link href={"/user/quizpaper"} className={UserContext?.ready && UserContext?.user?.role === "user" ? "hidden" : ""}>
+                    <Link href={"/user/quizpaper"} className={UserContext?.ready && UserContext?.user?.role === "admin" ? "" : "hidden"}>
                         <Button color="primary" variant={page === "quizpaper" ? "light" : "flat"} className={page === "quizpaper" ? "bg-gradient-to-r from-primary-200 to-primary-500 text-white" : ""}>
                             Create Quiz
                         </Button>

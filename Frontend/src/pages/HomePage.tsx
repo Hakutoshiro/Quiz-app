@@ -44,7 +44,7 @@ export default function HomePage() {
             {
                 quizzes.map((quiz,index) => {
                     return (
-                       <Card className=" w-11/12 max-w-[680px] h-[150px] my-2" key={index}>
+                       <Card className=" w-11/12 max-w-[680px] h-[150px] my-2 mx-auto" key={index}>
                             <CardHeader className="text-2xl">{quiz.name.toUpperCase()}</CardHeader>
                             <CardBody className="text-sm ">Number of Questions: {quiz.testQuestions.length}  </CardBody>
                        </Card>
