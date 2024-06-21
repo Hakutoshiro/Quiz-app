@@ -7,6 +7,9 @@ import SignupPage from "./pages/SignupPage"
 import { UserContextProvider } from "./sharedContext/UserContext"
 import TestPaperForm from "./pages/TestPaperForm"
 import ProfilePage from "./pages/ProfilePage"
+import QuizPage from "./pages/QuizPage"
+import ResultPage from "./pages/ResultPage"
+import ReviewPage from "./pages/ReviewPage"
 
 function App() {
   axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL
@@ -20,8 +23,10 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path="/user/quizpaper" element={<TestPaperForm/>} />
         <Route path="/user/profile" element={<ProfilePage/>} />
+        <Route path="/user/result/:id?" element = {<ResultPage/>} />
+        <Route path="/user/reviewQuiz/:id?" element={<ReviewPage/>} />
       </Route>
-
+      <Route path="/quiz/:id?" element={<QuizPage/>} />
     </Routes>
     </UserContextProvider>
   )

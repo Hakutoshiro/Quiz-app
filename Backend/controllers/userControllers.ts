@@ -3,6 +3,7 @@ const jwt = require ('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 require('dotenv').config();
 
+
 const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = process.env.JWT_SECRET_KEY 
 

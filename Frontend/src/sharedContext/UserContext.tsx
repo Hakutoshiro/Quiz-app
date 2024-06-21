@@ -16,7 +16,7 @@ export const useUserContext = () =>{
 }
 
 interface User {
-    id: string,
+    _id: ReactNode,
     name: string,
     email:string,
     role: string

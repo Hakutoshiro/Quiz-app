@@ -1,4 +1,4 @@
-import { useState } from "react"
+import {  useState } from "react"
 import { Navbar, NavbarBrand, NavbarContent, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Button, NavbarItem, Link } from "@nextui-org/react";
 import { useUserContext } from "../sharedContext/UserContext";
 
@@ -13,7 +13,7 @@ export default function NavbarComponent() {
         <Navbar onMenuOpenChange={setIsMenuOpen}>
             <NavbarContent>
                 <NavbarBrand>
-                    <Link href={'/user/'} className="font-bold text-inherit text-primary-300">QuizApp</Link>
+                    <Link href={'/user/'} className="font-bold text-inherit text-primary-300 ">QuizApp</Link>
                 </NavbarBrand>
                 <NavbarMenuToggle
                     aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -36,7 +36,7 @@ export default function NavbarComponent() {
                     </Link>
                 </NavbarItem>
                 <NavbarItem>
-                    <Link href={"/result"} className={UserContext?.ready && UserContext?.user?.role === "user" ? "" : "hidden"}>
+                    <Link href={UserContext?.ready && UserContext.user ? "/user/result/"+UserContext.user?._id : ""} className={UserContext?.ready && UserContext?.user?.role === "user" ? "" : "hidden"}>
                         <Button color="primary" variant={page === "result" ? "light" : "flat"} className={page === "result" ? "bg-gradient-to-r from-primary-200 to-primary-500 text-white" : ""}>
                             Result
                         </Button>
@@ -69,7 +69,7 @@ export default function NavbarComponent() {
                         </Link>
                     </NavbarMenuItem>
                     <NavbarMenuItem>
-                        <Link href={"/result"} className={UserContext?.ready && UserContext?.user?.role === "admin" ? "hidden" : ""}>
+                        <Link href={UserContext?.ready && UserContext.user ? "/user/result/"+UserContext.user?._id : ""} className={UserContext?.ready && UserContext?.user?.role === "admin" ? "hidden" : ""}>
                                 Result
                         
                         </Link>
