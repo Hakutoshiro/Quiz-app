@@ -1,4 +1,4 @@
-import {  useState } from "react"
+import { useState } from "react"
 import { Navbar, NavbarBrand, NavbarContent, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Button, NavbarItem, Link } from "@nextui-org/react";
 import { useUserContext } from "../sharedContext/UserContext";
 
@@ -36,7 +36,7 @@ export default function NavbarComponent() {
                     </Link>
                 </NavbarItem>
                 <NavbarItem>
-                    <Link href={UserContext?.ready && UserContext.user ? "/user/result/"+UserContext.user?._id : ""} className={UserContext?.ready && UserContext?.user?.role === "user" ? "" : "hidden"}>
+                    <Link href={UserContext?.ready && UserContext.user ? "/user/result/" + UserContext.user?._id : ""} className={UserContext?.ready && UserContext?.user?.role === "user" ? "" : "hidden"}>
                         <Button color="primary" variant={page === "result" ? "light" : "flat"} className={page === "result" ? "bg-gradient-to-r from-primary-200 to-primary-500 text-white" : ""}>
                             Result
                         </Button>
@@ -69,14 +69,9 @@ export default function NavbarComponent() {
                         </Link>
                     </NavbarMenuItem>
                     <NavbarMenuItem>
-                        <Link href={UserContext?.ready && UserContext.user ? "/user/result/"+UserContext.user?._id : ""} className={UserContext?.ready && UserContext?.user?.role === "admin" ? "hidden" : ""}>
-                                Result
-                        
-                        </Link>
+                        <Link href={UserContext?.ready && UserContext.user?.role === "user" ? "/user/result/" + UserContext.user?._id : "/user/quizpaper"} >
+                            { UserContext?.user?.role === "user" ? "Result" : "Create Quiz"}
 
-                        <Link href={"/user/quizpaper"} className={UserContext?.ready && UserContext?.user?.role === "user" ? "hidden" : ""}>
-                                Create Quiz
-                        
                         </Link>
                     </NavbarMenuItem>
                 </NavbarMenuItem>
