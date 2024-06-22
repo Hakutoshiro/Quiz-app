@@ -1,5 +1,3 @@
-Sure! Here’s the updated README file with the additional note and links:
-
 ---
 
 # Quiz-app
