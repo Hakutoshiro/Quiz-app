@@ -16,7 +16,7 @@ export const handleSignupUser = async (req:any , res: any) =>{
             password : bcrypt.hashSync(password, bcryptSalt)})
             jwt.sign({email:userDoc.email,id:userDoc._id,name:userDoc.name},jwtSecret,{},(err:any,token:any)=>{
                 if(err) throw err;
-                res.json({token,userDoc});                      
+                res.status(200).json({token,userDoc});                      
             })
     } catch (error) {
         res.status(422).json(error);
@@ -31,14 +31,14 @@ export const handleLogin = async (req:any , res:any) => {
             const passOk =bcrypt.compareSync(password,userDoc.password);
             if(passOk){
                 jwt.sign({email:userDoc.email,id:userDoc._id,name:userDoc.name},jwtSecret,{},(err:any ,token:any)=>{
-                    if(err) throw err;
-                    res.json({token,userDoc});                        
+                    if(err) res.json(err);
+                    res.status(200).json({token,userDoc});                        
                 })
             }else{
                 res.status(422).json("pass not ok");
             }
         }else{
-            res.json("user not found");
+            res.status(401).json("user not found");
         }
     } catch (error) {
     }

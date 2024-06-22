@@ -20,7 +20,7 @@ export default function NavbarComponent() {
                     className="sm:hidden"
                 />
             </NavbarContent>
-            <NavbarContent justify="end" className=" hidden lg:flex">
+            <NavbarContent justify="end" className=" hidden  sm:flex">
                 <NavbarItem >
                     <Link href={"/user/"}>
                         <Button color="primary" variant={!page ? "light" : "flat"} className={!page ? "bg-gradient-to-r from-primary-200 to-primary-500 text-white" : ""}>
@@ -37,7 +37,7 @@ export default function NavbarComponent() {
                 </NavbarItem>
                 <NavbarItem>
                     <Link href={UserContext?.ready && UserContext.user ? "/user/result/" + UserContext.user?._id : ""} className={UserContext?.ready && UserContext?.user?.role === "user" ? "" : "hidden"}>
-                        <Button color="primary" variant={page === "result" ? "light" : "flat"} className={page === "result" ? "bg-gradient-to-r from-primary-200 to-primary-500 text-white" : ""}>
+                        <Button color="primary" variant={page === "result" ? "light" : "flat"} className={page === "result" || page === "reviewQuiz" ? "bg-gradient-to-r from-primary-200 to-primary-500 text-white" : ""}>
                             Result
                         </Button>
                     </Link>
@@ -51,7 +51,6 @@ export default function NavbarComponent() {
             </NavbarContent>
 
             <NavbarMenu className="bg-bkgrd">
-                <NavbarMenuItem >
                     <NavbarMenuItem  >
                         <Link
                             className="w-full"
@@ -74,7 +73,6 @@ export default function NavbarComponent() {
 
                         </Link>
                     </NavbarMenuItem>
-                </NavbarMenuItem>
             </NavbarMenu>
         </Navbar>
     );

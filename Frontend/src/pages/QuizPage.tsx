@@ -21,6 +21,7 @@ export default function () {
 
     const { id } = useParams()
     const [questions, setQuestions] = useState<TestQuestions[]>([])
+    const [reviewId, setReviewId] = useState<string>("")
     const [quizName, setQuizName] = useState<string>("")
     const [chosenAnswer, setChosenAnswer] = useState<string[]>([])
     const [length, setLength] = useState<number>(0)
@@ -67,6 +68,7 @@ export default function () {
         )
         if (data) {
             setNavigate(true)
+            setReviewId(data._id)
         }
 
 
@@ -98,8 +100,8 @@ export default function () {
         initialChosenAnswer()
     }, [])
 
-    if (navigate) {
-        return <Navigate to="/user" />
+    if (navigate && reviewId) {
+        return <Navigate to={"/user/reviewQuiz/"+reviewId} />
     }
 
     return (

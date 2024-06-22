@@ -1,22 +1,26 @@
 import axios from "axios"
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import { Button, Input } from "@nextui-org/react"
+import { Button, Input ,CircularProgress } from "@nextui-org/react"
 
 export default function SignupPage() {
-    const [name,setName] = useState("")
-    const [email,setEmail] = useState("")
-    const [password,setPassword] = useState("")
+    const [name,setName] = useState<string>("")
+    const [email,setEmail] = useState<string>("")
+    const [password,setPassword] = useState<string>("")
+    const [isLoading,setIsLoading] = useState<boolean>(false)
     const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault()
+        setIsLoading(true)
         if(!name ||!email ||!password){
             window.alert("Please fill all the fields")
+            setIsLoading(false)
             return
         }
         try {
             const {data} = await axios.post("/user/signup",{name,email,password})
             localStorage.setItem("token",JSON.stringify(data.token))
         } catch (error) {
+            setIsLoading(false)
             window.alert("Signup failed")
         }
     }
@@ -58,7 +62,8 @@ export default function SignupPage() {
                 type="submit" 
                 color="primary"
                 className="w-11/12  mx-auto my-4 "  >
-                Sign Up
+                    {isLoading && <CircularProgress   size="sm" aria-label="Loading..."/>}
+                    {!isLoading && <>Sign Up</>  }
             </Button>
             <Link to="/" className="underline pb-3">Login</Link>
         </form>

@@ -21,7 +21,18 @@ const CreateTestPapers = async (req: any, res: any) => {
 const getAllQuizzes = async (req: any, res: any) => {
     try {
         const quizzes = await TestPaper.find();
-        res.status(200).json(quizzes);
+        const token = req.headers.authorization.split(" ")[1].replace(/"/g,"");
+        if(token){
+            jwt.verify(token,jwtSecret,{},async (err:any,user:{email:string,id:string,name:string})=>
+            {
+                const AttemptedQuizzes = await AttemptQuiz.find({ studentId: user.id });
+                res.status(200).json({quizzes,AttemptedQuizzes});
+            })
+        }
+        else {
+            res.json(null);
+        }
+        
     } catch (error: any) {
         res.status(400).json({ message: error.message });
     }
@@ -71,11 +82,21 @@ const handleSubmission = async (req: any, res: any) => {
 const getAllAttemptedQuizzes = async (req: any, res: any) => {
     try {
         const attemptedQuizzes = await AttemptQuiz.find({ studentId: req.params.id });
-        res.json(attemptedQuizzes);
+        res.status(200).json(attemptedQuizzes);
     } catch (error: any) { 
-        res.json(error)
+        res.status(400).json(error)
     }
 
 }
 
-export { CreateTestPapers, getAllQuizzes, getQuiz, handleSubmission , getAllAttemptedQuizzes};
+const getQuizToReview = async (req: any, res: any) => {
+    try {
+        const quizDoc = await AttemptQuiz.findById(req.params.id);
+        
+        res.status(200).json({ name: quizDoc?.name, testQuestions: quizDoc?.testQuestions , optionsChosen: quizDoc?.optionsChosen , correctAnswers: quizDoc?.correctAnswers , score: quizDoc?.score});
+    } catch (error: any) { 
+        res.status(400).json(error)
+    }
+}
+
+export { CreateTestPapers, getAllQuizzes, getQuiz, handleSubmission , getAllAttemptedQuizzes ,getQuizToReview}; 

@@ -22,6 +22,6 @@ mongoConnection(process.env.MONGO_URL);
 app.use('/user',UserRouter)
 app.use('/quizpaper',  CTPaperRouter)
 
-app.listen(process.env.PORT || 3000, () => {
-  console.log('Server is running on port 3000');
+app.listen(process.env.PORT || 4000, () => {
+  console.log('Server is running on port 4000');
 });

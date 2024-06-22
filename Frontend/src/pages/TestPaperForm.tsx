@@ -2,12 +2,15 @@ import { Navigate } from "react-router-dom";
 import { useUserContext } from "../sharedContext/UserContext";
 import axios from "axios";
 import { useState } from "react";
-import { Button, Input, Radio, RadioGroup } from "@nextui-org/react";
+import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Radio, RadioGroup, useDisclosure } from "@nextui-org/react";
 import QuestionCard from "../components/QuestionCard";
 
 
 
 export default function TestPaperForm() {
+
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
     const UserContext = useUserContext();
     if (UserContext?.ready && !UserContext?.user) {
         window.alert("Please login first");
@@ -29,13 +32,14 @@ export default function TestPaperForm() {
         options: Option,
         correctAnswer: string
     }
-    
+
     const [testQuestions, setTestQuestions] = useState<TestQuestion[]>([]);
     const [name, setName] = useState<string>("");
     const [question, setQuestion] = useState<string>("");
-    const [options, setOptions] = useState<Option >({ a: "", b: "", c: "", d: "" });
+    const [options, setOptions] = useState<Option>({ a: "", b: "", c: "", d: "" });
     const [correctAnswer, setCorrectAnswer] = useState<string>("");
-    const [nav,setNav] = useState<boolean>(false);
+    const [nav, setNav] = useState<boolean>(false);
+    const [defaultVal, setDefaultVal] = useState<string>("");
 
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value);
@@ -51,11 +55,11 @@ export default function TestPaperForm() {
 
     const handleAddButton = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if(!name || !question || !options.a || !options.b || !options.c || !options.d || !correctAnswer){
+        if (!name || !question || !options.a || !options.b || !options.c || !options.d || !correctAnswer) {
             window.alert("Please fill all the fields");
             return;
         }
-        setTestQuestions([...testQuestions , { questions: question, options: options, correctAnswer: correctAnswer }])
+        setTestQuestions([...testQuestions, { questions: question, options: options, correctAnswer: correctAnswer }])
         setQuestion("");
         setOptions({ a: "", b: "", c: "", d: "" });
     }
@@ -63,26 +67,27 @@ export default function TestPaperForm() {
     const handleCorrectAnswerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setCorrectAnswer(e.target.value);
     }
-    
-    const handleSubmit = async(e: React.MouseEvent<HTMLButtonElement>) => {
+
+    const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        if(!name ||!testQuestions){
+        if (!name || !testQuestions) {
             window.alert("Please fill all the fields");
             return;
         }
         try {
             await axios.post("/quizpaper", { name, testQuestions }, {
-                headers:{authorization: `Bearer ${localStorage.getItem('token')}`}
+                headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
             });
             window.alert("Quiz created successfully");
             setNav(true);
             setName("");
+            setDefaultVal("");
             setTestQuestions([]);
         } catch (error) {
             window.alert("Quiz creation failed");
         }
     }
-    if(nav){
+    if (nav) {
         return <Navigate to="/user" />
     }
     return (
@@ -94,10 +99,9 @@ export default function TestPaperForm() {
                     value={name}
                     placeholder="Quiz Name:"
                     onChange={handleNameChange} />
-                
+
                 <QuestionCard testQuestions={testQuestions} />
                 <Input
-                    label = "Q:"
                     type="text"
                     value={question}
                     placeholder="Question"
@@ -105,7 +109,6 @@ export default function TestPaperForm() {
                 <ul className="py-4">
                     <li className="py-1">
                         <Input
-                            label="A:"
                             type="text"
                             name="a"
                             value={options?.a}
@@ -114,7 +117,6 @@ export default function TestPaperForm() {
                     </li>
                     <li className="py-1">
                         <Input
-                            label="B:"
                             name="b"
                             type="text"
                             value={options?.b}
@@ -123,7 +125,6 @@ export default function TestPaperForm() {
                     </li>
                     <li className="py-1">
                         <Input
-                            label="C:"
                             name="c"
                             type="text"
                             value={options?.c}
@@ -132,7 +133,6 @@ export default function TestPaperForm() {
                     </li>
                     <li className="py-1">
                         <Input
-                            label="D:"
                             type="text"
                             name="d"
                             value={options?.d}
@@ -141,22 +141,47 @@ export default function TestPaperForm() {
                     </li>
                 </ul>
                 <RadioGroup
-                label={"Correct Option:"}
-                orientation="horizontal"
-                className="w-full flex justify-between py-3">
-                    <Radio value="a" checked={correctAnswer === "a"} onChange={handleCorrectAnswerChange}>A</Radio>
-                    <Radio value="b" checked={correctAnswer === "b"} onChange={handleCorrectAnswerChange}>B</Radio>
-                    <Radio value="c" checked={correctAnswer === "c"} onChange={handleCorrectAnswerChange}>C</Radio>
-                    <Radio value="d" checked={correctAnswer === "d"} onChange={handleCorrectAnswerChange}>D</Radio>
+                    label={"Correct Option:"}
+                    orientation="horizontal"
+                    defaultValue={defaultVal}
+                    className="w-full flex justify-between py-3">
+                    <Radio value="a" checked={correctAnswer === "a"} onChange={handleCorrectAnswerChange} className="px-10">A</Radio>
+                    <Radio value="b" checked={correctAnswer === "b"} onChange={handleCorrectAnswerChange} className="px-10">B</Radio>
+                    <Radio value="c" checked={correctAnswer === "c"} onChange={handleCorrectAnswerChange} className="px-10">C</Radio>
+                    <Radio value="d" checked={correctAnswer === "d"} onChange={handleCorrectAnswerChange} className="px-10">D</Radio>
                 </RadioGroup>
-                <Button 
+                <Button
                     color="primary"
                     className="w-full"
                     type="submit">
                     Add Question
                 </Button>
             </form>
-            <Button className="w-11/12 max-w-[640px] mx-auto " color="primary" onClick={handleSubmit}>Submit Quiz</Button>
+            <Button className="w-11/12 max-w-[640px] mx-auto " color="primary" onPress={onOpen}>Submit Quiz</Button>
+            <Modal isOpen={isOpen} onOpenChange={onOpenChange} className="bg-bkgrd text-white ">
+                <ModalContent>
+                    {(onClose) => (
+                        <>
+                            <ModalHeader className="flex flex-col gap-1">Confirmation</ModalHeader>
+                            <ModalBody>
+                                <p className=" opacity-90">
+                                    Are you sure you want to submit the quiz?
+                                </p>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button color="danger" variant="light" onPress={onClose}>
+                                    Close
+                                </Button>
+                                <Button color="primary"
+                                    onPress={onClose}
+                                    onClick={handleSubmit}>
+                                    Submit
+                                </Button>
+                            </ModalFooter>
+                        </>
+                    )}
+                </ModalContent>
+            </Modal>
         </div>
     );
 }

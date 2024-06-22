@@ -1,5 +1,5 @@
 import express from 'express';
-import { CreateTestPapers, getAllAttemptedQuizzes, getAllQuizzes, getQuiz, handleSubmission } from '../controllers/cTPControllers';
+import { CreateTestPapers, getAllAttemptedQuizzes, getAllQuizzes, getQuiz, getQuizToReview, handleSubmission } from '../controllers/cTPControllers';
 import { checkAuthenticity } from '../middlewares/Authentication';
 import { checkAuthority } from '../middlewares/Authorization';
 const CTPaperRouter = express.Router();
@@ -9,5 +9,6 @@ CTPaperRouter.get('/getAllQuizzes',checkAuthenticity,getAllQuizzes );
 CTPaperRouter.get('/quiz/:id?',checkAuthority("user"),getQuiz)
 CTPaperRouter.post('/attemptquiz',handleSubmission)
 CTPaperRouter.get('/getAllAttemptedQuizzes/:id?',checkAuthority("user"),getAllAttemptedQuizzes)
+CTPaperRouter.get('/reviewQuiz/:id?',checkAuthority("user"),getQuizToReview)
 
 export { CTPaperRouter }

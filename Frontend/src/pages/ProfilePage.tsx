@@ -17,7 +17,7 @@ export default function ProfilePage() {
     const handleLogout = (e: React.MouseEvent<Element, MouseEvent>) => {
         e.preventDefault();
         UserContext?.setUser(null)
-        localStorage.removeItem("token")
+        localStorage.clear()
         setLogOut(true)
     }
 
