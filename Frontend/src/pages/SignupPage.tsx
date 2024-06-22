@@ -2,6 +2,7 @@ import axios from "axios"
 import { useState } from "react"
 import { Link, Navigate } from "react-router-dom"
 import { Button, Input ,CircularProgress } from "@nextui-org/react"
+import { useUserContext } from "../sharedContext/UserContext"
 
 export default function SignupPage() {
     const [name,setName] = useState<string>("")
@@ -9,6 +10,7 @@ export default function SignupPage() {
     const [password,setPassword] = useState<string>("")
     const [isLoading,setIsLoading] = useState<boolean>(false)
     const [nav,setNav] = useState<boolean>(false)
+    const UserContext = useUserContext()
     const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault()
         setIsLoading(true)
@@ -20,6 +22,7 @@ export default function SignupPage() {
         try {
             const {data} = await axios.post("/user/signup",{name,email,password})
             localStorage.setItem("token",JSON.stringify(data.token))
+            UserContext?.setUser(data.userDoc)
             setNav(true)
         } catch (error) {
             setIsLoading(false)
