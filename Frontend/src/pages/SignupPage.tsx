@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, Navigate } from "react-router-dom"
 import { Button, Input ,CircularProgress } from "@nextui-org/react"
 
 export default function SignupPage() {
@@ -8,6 +8,7 @@ export default function SignupPage() {
     const [email,setEmail] = useState<string>("")
     const [password,setPassword] = useState<string>("")
     const [isLoading,setIsLoading] = useState<boolean>(false)
+    const [nav,setNav] = useState<boolean>(false)
     const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault()
         setIsLoading(true)
@@ -19,6 +20,7 @@ export default function SignupPage() {
         try {
             const {data} = await axios.post("/user/signup",{name,email,password})
             localStorage.setItem("token",JSON.stringify(data.token))
+            setNav(true)
         } catch (error) {
             setIsLoading(false)
             window.alert("Signup failed")
@@ -35,6 +37,10 @@ export default function SignupPage() {
 
     const handlePasswordChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value)
+    }
+
+    if(nav){
+        return <Navigate to={"/user"} />
     }
 
     return (
