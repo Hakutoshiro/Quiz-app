@@ -2,6 +2,7 @@ import {Schema, model} from 'mongoose';
 
 const testPaperSchema = new Schema({
     name :{type: String, required: true},
+    adminId : {type :Schema.Types.ObjectId,ref:'User'},
     testQuestions:[{
         questions : String,
         correctAnswer : String,

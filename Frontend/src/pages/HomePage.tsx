@@ -9,6 +9,7 @@ export default function HomePage() {
     interface Quiz {
         _id: ReactNode,
         name: string,
+        adminId : ReactNode,
         testQuestions: {
             length: ReactNode
             questions: String,

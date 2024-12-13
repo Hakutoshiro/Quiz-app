@@ -6,9 +6,11 @@ require("dotenv").config();
 const jwtSecret = process.env.JWT_SECRET_KEY;
 
 const CreateTestPapers = async (req: any, res: any) => {
-    const { name, testQuestions } = req.body;
+    const { name, testQuestions,adminId } = req.body;
+    
     try {
         TestPaper.create({
+            adminId,
             name,
             testQuestions,
         });

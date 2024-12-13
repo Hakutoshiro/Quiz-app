@@ -75,7 +75,7 @@ export default function TestPaperForm() {
             return;
         }
         try {
-            await axios.post("/quizpaper", { name, testQuestions }, {
+            await axios.post("/quizpaper", { name, testQuestions,adminId:UserContext.user?._id }, {
                 headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
             });
             window.alert("Quiz created successfully");
